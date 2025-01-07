@@ -76,13 +76,14 @@ const Result = ({ selectedOption, setSelectedOption }) => {
   }, [selectedOption, dispatch]);
 
   useEffect(() => {
-    if (result === "win") {
-      divRef.current.classList.add("win-grad");
-    } else {
-      divRef.current.classList.remove("win-grad");
+    if (divRef.current) {
+      if (result === "win") {
+        divRef.current.classList.add("win-grad");
+      } else {
+        divRef.current.classList.remove("win-grad");
+      }
     }
   }, [result]);
-
   return (
     <AnimatePresence>
       {selectedOption && (
