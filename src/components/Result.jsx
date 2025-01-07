@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useRef ,useEffect } from 'react'
 import { motion, AnimatePresence } from "motion/react"
 import paper from '../assets/images/icon-paper.svg'
 import rock from '../assets/images/icon-rock.svg'
@@ -23,6 +23,8 @@ const Result = ({ selectedOption, setSelectedOption }) => {
   const [houseOption, setHouseOption] = useState("");
   const [result, setResult] = useState("");
   const [isHousePicked, setIsHousePicked] = useState(false);
+
+  const divRef = useRef(null);
 
   const determineWinner = (user, house) => {
     if (user === house) {
@@ -73,6 +75,14 @@ const Result = ({ selectedOption, setSelectedOption }) => {
     }
   }, [selectedOption, dispatch]);
 
+  useEffect(() => {
+    if (result === "win") {
+      divRef.current.classList.add("win-grad");
+    } else {
+      divRef.current.classList.remove("win-grad");
+    }
+  }, [result]);
+
   return (
     <AnimatePresence>
       {selectedOption && (
@@ -86,7 +96,8 @@ const Result = ({ selectedOption, setSelectedOption }) => {
         >
           <div className='flex flex-col justify-center items-center gap-10'>
             <p className='hidden laptop:block text-[25px] text-white tracking-[0.2rem] barlow-semibold'>YOU PICKED</p>
-            <div className={`${selectedOption}-grad top-0 left-0 ${selectedOption === 'rock' ? 'p-6' : (selectedOption === 'spock'? 'px-6 py-4' : (selectedOption === 'lizard' ? 'p-6' : 'px-6 py-5'))} ${selectedOption === 'spock'? 'laptop:px-[4.25rem] laptop:py-[3.75rem]' : (selectedOption === 'lizard'? 'laptop:p-[4rem]' : 'laptop:px-[4rem] laptop:py-[3.75rem]')} border-[15px] laptop:border-[30px] border-transparent rounded-full cursor-pointer`}>
+            <div ref={divRef} className={`${selectedOption}-grad top-0 left-0 ${selectedOption === 'rock' ? 'p-6' : (selectedOption === 'spock'? 'px-6 py-4' : (selectedOption === 'lizard' ? 'p-6' : 'px-6 py-5'))} ${selectedOption === 'spock'? 'laptop:px-[4.25rem] laptop:py-[3.75rem]' : (selectedOption === 'lizard'? 'laptop:p-[4rem]' : 'laptop:px-[4rem] laptop:py-[3.75rem]')} 
+                                          border-[15px] laptop:border-[30px] border-transparent rounded-full cursor-pointer`}>
               <img className='w-[45px] laptop:w-[85px] h-fit' src={images[selectedOption]} alt={selectedOption} />
             </div>
             <p className='laptop:hidden text-[20px] text-white barlow-semibold'>YOU PICKED</p>
@@ -115,14 +126,23 @@ const Result = ({ selectedOption, setSelectedOption }) => {
               >
                 {result === "win" ? "YOU WIN" : result === "lose" ? "YOU LOSE" : "IT'S A DRAW"}
               </motion.h1>
-              <button className='w-[220px] bg-white py-3 text-DarkText hover:text-red-500 barlow-semibold tracking-[0.20rem] rounded-lg duration-300' onClick={() => setSelectedOption("")}>PLAY AGAIN</button>
+              <button 
+                className='w-[220px] bg-white py-3 text-DarkText hover:text-red-500 barlow-semibold tracking-[0.20rem] rounded-lg duration-300' 
+                onClick={() => {
+                  setSelectedOption("");
+                  setResult("");
+                }}
+              >
+                PLAY AGAIN
+              </button>
             </motion.div>
           )}
       
           <div className='flex flex-col justify-center items-center gap-10'>
             <p className='hidden laptop:block text-[25px] text-white tracking-[0.2rem] barlow-semibold'>THE HOUSE PICKED</p>
             {isHousePicked ? (
-              <div className={`${houseOption}-grad top-0 left-0 ${houseOption === 'rock' ? 'p-6' : (houseOption === 'spock'? 'px-6 py-4' : (houseOption === 'lizard' ? 'p-6' : 'px-6 py-5'))} ${houseOption === 'spock'? 'laptop:px-[4.25rem] laptop:py-[3.75rem]' : (houseOption === 'lizard'? 'laptop:p-[4rem]' : 'laptop:px-[4rem] laptop:py-[3.75rem]')} border-[15px] laptop:border-[30px] border-transparent rounded-full cursor-pointer`}>
+              <div className={`${houseOption}-grad top-0 left-0 ${houseOption === 'rock' ? 'p-6' : (houseOption === 'spock'? 'px-6 py-4' : (houseOption === 'lizard' ? 'p-6' : 'px-6 py-5'))} ${houseOption === 'spock'? 'laptop:px-[4.25rem] laptop:py-[3.75rem]' : (houseOption === 'lizard'? 'laptop:p-[4rem]' : 'laptop:px-[4rem] laptop:py-[3.75rem]')}
+                               ${result === "lose" ? "win-grad" : ""} border-[15px] laptop:border-[30px] border-transparent rounded-full cursor-pointer`}>
                 <img className='w-[45px] laptop:w-[85px] h-fit' src={images[houseOption]} alt={houseOption} />
               </div>
             ) : (
@@ -143,7 +163,15 @@ const Result = ({ selectedOption, setSelectedOption }) => {
             <h1 className='text-[60px] text-white barlow-bold'>
               {result === "win" ? "YOU WIN" : result === "lose" ? "YOU LOSE" : "IT'S A DRAW"}
             </h1>
-            <button className='w-[220px] bg-white py-3 text-DarkText hover:text-red-500 barlow-semibold tracking-[0.20rem] rounded-lg duration-300' onClick={() => setSelectedOption("")}>PLAY AGAIN</button>
+            <button 
+              className='w-[220px] bg-white py-3 text-DarkText hover:text-red-500 barlow-semibold tracking-[0.20rem] rounded-lg duration-300' 
+              onClick={() => {
+                setSelectedOption("");
+                setResult("");
+              }}
+            >
+              PLAY AGAIN
+            </button>
           </motion.div>
         )}
         

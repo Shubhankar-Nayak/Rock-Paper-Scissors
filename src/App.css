@@ -41,3 +41,26 @@ body {
     linear-gradient(to top, hsl(189, 59%, 53%) , hsl(189, 58%, 57%)) border-box;
   box-shadow: rgba(0, 0, 0, 0.3) 0px 5px inset, hsl(189, 52%, 39%) 0px 6px;
 }
+
+.no-shadow{
+  box-shadow: none;
+}
+
+@media screen and (min-width: 769px) {
+  .win-grad {
+    box-shadow: rgba(253, 253, 255, 0.06) 0px 0px 0px 50px, rgba(253, 253, 255, 0.05) 0px 0px 0px 100px, rgba(253, 253, 255, 0.02) 0px 0px 0px 150px;
+    transition: box-shadow 0.5s ease 1s;
+  }
+
+  .no-shadow{
+    box-shadow: none;
+  }
+  
+}
+
+@media screen and (max-width: 769px) {
+  .win-grad {
+    box-shadow: rgba(253, 253, 255, 0.06) 0px 0px 0px 15px, rgba(253, 253, 255, 0.05) 0px 0px 0px 30px, rgba(253, 253, 255, 0.02) 0px 0px 0px 50px;
+    transition: box-shadow 0.5s ease 1s;
+  }
+}
