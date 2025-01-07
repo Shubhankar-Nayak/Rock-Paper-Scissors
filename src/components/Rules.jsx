@@ -2,10 +2,12 @@ import React from 'react'
 import { useSelector, useDispatch } from 'react-redux';
 import { toggleRules } from '../store/rulesSlice';
 import rule from '../assets/images/image-rules.svg'
+import ruleBonus from '../assets/images/image-rules-bonus.svg'
 import close from '../assets/images/icon-close.svg'
 
 const Rules = () => {
   const rules = useSelector((state) => state.rules.isVisible);
+  const mode = useSelector((state) => state.mode.isVisible);
   const dispatch = useDispatch();
 
   const handleToggleRules = () => {
@@ -22,7 +24,7 @@ const Rules = () => {
             <h1 className='text-[35px] text-DarkText barlow-bold'>RULES</h1>
             <img className='hidden laptop:block cursor-pointer' src={close} alt="Close" onClick={handleToggleRules} />
           </div>
-          <img src={rule} alt="Rules" />
+          { mode ? (<img className='pb-5' src={rule} alt="Rules" />) : (<img className='pb-5' src={ruleBonus} alt="Rules" />)}
           <div className='laptop:hidden'>
             <img className='cursor-pointer' src={close} alt="Close" onClick={handleToggleRules} />
           </div>

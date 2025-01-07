@@ -3,10 +3,12 @@ import { motion, AnimatePresence } from "motion/react"
 import paper from '../assets/images/icon-paper.svg'
 import rock from '../assets/images/icon-rock.svg'
 import scissors from '../assets/images/icon-scissors.svg'
+import lizard from '../assets/images/icon-lizard.svg'
+import spock from '../assets/images/icon-spock.svg'
 import { useSelector, useDispatch } from 'react-redux';
 import { increment, decrement } from '../store/scoreSlice';
 
-const images = {"paper" : paper, "rock" : rock, "scissors" : scissors}
+const images = {"paper" : paper, "rock" : rock, "scissors" : scissors, "lizard" : lizard, "spock" : spock}
 
 const animationVariants = {
   hidden: { opacity: 0, scale: 0.8, transition: { duration: 0.5, delay: 0.5 } },
@@ -16,6 +18,7 @@ const animationVariants = {
 
 const Result = ({ selectedOption, setSelectedOption }) => {
   const score = useSelector((state) => state.score.value);
+  const mode = useSelector((state) => state.mode.isVisible);
   const dispatch = useDispatch()
   const [houseOption, setHouseOption] = useState("");
   const [result, setResult] = useState("");
@@ -27,8 +30,15 @@ const Result = ({ selectedOption, setSelectedOption }) => {
     }
     if (
       (user === "rock" && house === "scissors") ||
+      (user === "rock" && house === "lizard") ||
       (user === "paper" && house === "rock") ||
-      (user === "scissors" && house === "paper")
+      (user === "paper" && house === "spock") ||
+      (user === "scissors" && house === "paper") ||
+      (user === "scissors" && house === "lizard") ||
+      (user === "lizard" && house === "spock") ||
+      (user === "lizard" && house === "paper") ||
+      (user === "spock" && house === "scissors") ||
+      (user === "spock" && house === "rock") 
     ) {
       return "win";
     }
@@ -38,10 +48,14 @@ const Result = ({ selectedOption, setSelectedOption }) => {
   useEffect(() => {
     if (selectedOption) {
       const options = ["rock", "paper", "scissors"];
+      const optionsBonus = ["rock", "paper", "scissors","lizard","spock"];
       setIsHousePicked(false);
 
       const timer = setTimeout(() => {
-        const randomHouseOption = options[Math.floor(Math.random() * options.length)];
+        const randomHouseOption = mode
+          ? options[Math.floor(Math.random() * options.length)]
+          : optionsBonus[Math.floor(Math.random() * optionsBonus.length)];
+    
         setHouseOption(randomHouseOption);
         setIsHousePicked(true);
 
@@ -72,7 +86,7 @@ const Result = ({ selectedOption, setSelectedOption }) => {
         >
           <div className='flex flex-col justify-center items-center gap-10'>
             <p className='hidden laptop:block text-[25px] text-white tracking-[0.2rem] barlow-semibold'>YOU PICKED</p>
-            <div className={`${selectedOption}-grad top-0 left-0 ${selectedOption === 'rock' ? 'p-6' : 'px-6 py-5'} laptop:px-[4rem] laptop:py-[3.75rem] border-[15px] laptop:border-[30px] border-transparent rounded-full cursor-pointer`}>
+            <div className={`${selectedOption}-grad top-0 left-0 ${selectedOption === 'rock' ? 'p-6' : (selectedOption === 'spock'? 'px-6 py-4' : (selectedOption === 'lizard' ? 'p-6' : 'px-6 py-5'))} ${selectedOption === 'spock'? 'laptop:px-[4.25rem] laptop:py-[3.75rem]' : (selectedOption === 'lizard'? 'laptop:p-[4rem]' : 'laptop:px-[4rem] laptop:py-[3.75rem]')} border-[15px] laptop:border-[30px] border-transparent rounded-full cursor-pointer`}>
               <img className='w-[45px] laptop:w-[85px] h-fit' src={images[selectedOption]} alt={selectedOption} />
             </div>
             <p className='laptop:hidden text-[20px] text-white barlow-semibold'>YOU PICKED</p>
@@ -108,7 +122,7 @@ const Result = ({ selectedOption, setSelectedOption }) => {
           <div className='flex flex-col justify-center items-center gap-10'>
             <p className='hidden laptop:block text-[25px] text-white tracking-[0.2rem] barlow-semibold'>THE HOUSE PICKED</p>
             {isHousePicked ? (
-              <div className={`${houseOption}-grad top-0 left-0 ${houseOption === 'rock' ? 'p-6' : 'px-6 py-5'} laptop:px-[4rem] laptop:py-[3.75rem] border-[15px] laptop:border-[30px] border-transparent rounded-full cursor-pointer`}>
+              <div className={`${houseOption}-grad top-0 left-0 ${houseOption === 'rock' ? 'p-6' : (houseOption === 'spock'? 'px-6 py-4' : (houseOption === 'lizard' ? 'p-6' : 'px-6 py-5'))} ${houseOption === 'spock'? 'laptop:px-[4.25rem] laptop:py-[3.75rem]' : (houseOption === 'lizard'? 'laptop:p-[4rem]' : 'laptop:px-[4rem] laptop:py-[3.75rem]')} border-[15px] laptop:border-[30px] border-transparent rounded-full cursor-pointer`}>
                 <img className='w-[45px] laptop:w-[85px] h-fit' src={images[houseOption]} alt={houseOption} />
               </div>
             ) : (
