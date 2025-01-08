@@ -25,7 +25,7 @@ function App() {
   };
 
   return (
-    <div className='w-full h-screen relative flex flex-col justify-between items-center py-10'>
+    <div className='w-full h-screen relative flex flex-col justify-around laptop:justify-between items-center py-10'>
       <div className='w-[85%] max-w-[700px] ps-5 pe-3 py-3 flex justify-between items-center border-4 border-HeaderOutline rounded-xl'>
         <div className='text-[22px] text-white leading-[1.1rem] barlow-semibold'>
           <p>ROCK</p>
